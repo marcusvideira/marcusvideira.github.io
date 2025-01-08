@@ -67,12 +67,17 @@ async function createAlbum(albumTitle) {
 }
 
 async function addMediaItemsToAlbum(albumId, mediaItemIds) {
-    const body = {
-        mediaItemIds: mediaItemIds
-    };
+    const BATCH_SIZE = 50; // Maximum number of items per request
 
-    const result = await apiGooglePhotos.request('POST', `/albums/${albumId}:batchAddMediaItems`, body);
-    throwOnResultsError(result);
+    for (let i = 0; i < mediaItemIds.length; i += BATCH_SIZE) {
+        const batch = mediaItemIds.slice(i, i + BATCH_SIZE);
+        const body = {
+            mediaItemIds: batch
+        };
+
+        const result = await apiGooglePhotos.request('POST', `/albums/${albumId}:batchAddMediaItems`, body);
+        throwOnResultsError(result);
+    }
 }
 
 async function runAsync(checkSharedAlbums) {
