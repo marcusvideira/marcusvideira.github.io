@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>GAPI Querier</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- mdc-web requirements -->
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+    <!-- material-symbols -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  </head>
+  <body>
+    <div class="u-inlineBlock">
+      <input type="text" id="inputGapiClientId" placeholder="CLIENT_ID.apps.googleusercontent.com" />
+
+      <div id="cardSignin" class="card u-flex" hidden>
+        <span id="containerSigninButton">Loading...</span>
+        <span id="outputSigninIdentity" class="signin-identity" hidden></span>
+        <button id="buttonSigninReset" class="u-marginLeft button--subdued u-uppercase material-symbols-outlined" hidden>refresh</button>
+      </div>
+    </div>
+
+    <hr />
+
+    <div id="cardCommands" class="commands card" hidden>
+      <span class="u-flex">
+        <select id="selectCommands">
+          <option disabled selected value="-">Choose a command to run</option>
+        </select>
+        <button id="buttonRunCommand" hidden>Run</button>
+      </span>
+      <div id="progressRunCommand" role="progressbar" class="commands-progress mdc-linear-progress mdc-linear-progress--indeterminate" hidden>
+          <div class="mdc-linear-progress__buffering-dots"></div>
+          <div class="mdc-linear-progress__buffer"></div>
+          <div class="mdc-linear-progress__bar mdc-linear-progress__primary-bar">
+            <span class="mdc-linear-progress__bar-inner"></span>
+          </div>
+          <div class="mdc-linear-progress__bar mdc-linear-progress__secondary-bar">
+            <span class="mdc-linear-progress__bar-inner"></span>
+          </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <div id="cardResults" class="card" hidden>
+    </div>
+
+    <script>document.cookie = "G_AUTH2_MIGRATION=informational";</script>
+    <!-- https://developers.google.com/identity/oauth2/web/guides/migration-to-gis#gapi-asyncawait -->
+    <script>
+      const global_gisLoadPromise = new Promise((resolve, reject) => {
+        global_gisLoadOkay = resolve;
+        global_gisLoadFail = reject;
+      });
+    </script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="global_gisLoadOkay()" onerror="global_gisLoadFail(event)"></script>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>
