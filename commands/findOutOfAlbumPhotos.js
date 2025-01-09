@@ -115,7 +115,7 @@ async function runAsync(checkSharedAlbums) {
 
     if (Object.keys(_mediaItems).length) {
         const albumId = await createAlbum('Undefined Album');
-        await addMediaItemsToAlbum(albumId, Object.keys(_mediaItems));
+        // await addMediaItemsToAlbum(albumId, Object.keys(_mediaItems));
 
         const frag = document.createDocumentFragment(),
               table = document.createElement('table'),
